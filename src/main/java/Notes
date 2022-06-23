@@ -1,0 +1,15 @@
+src/main/java -- is for utilities
+
+when we create jar files, the source code /driver factory/utilities will be in src/main/java
+
+src/test/java - only for testcases and testng 
+
+
+Thread local -> each 
+
+
+
+
+Maven commands:
+mvn clean install -> clean and run tests
+mvn clean install -DskipTests=true
