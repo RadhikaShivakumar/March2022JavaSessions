@@ -6,8 +6,8 @@
 	thread-count="4" parallel="tests">
 
 	<listeners>
-<!-- 		<listener
-			class-name="com.qa.opencart.listeners.ExtentReportListener" /> -->
+	<listener
+			class-name="com.qa.opencart.listeners.ExtentReportListener" /> 
 		<listener
 			class-name="com.qa.opencart.listeners.TestAllureListener" />
 		<listener
@@ -20,7 +20,7 @@
 		</classes>
 	</test>
     
-<!-- 	<test name="Open Cart Accounts Page Tests">
+	<test name="Open Cart Accounts Page Tests">
 		<classes>
 			<class name="com.qa.opencart.tests.AccountsPageTest" />
 		</classes>
@@ -30,7 +30,7 @@
 		<classes>
 			<class name="com.qa.opencart.tests.RegisterPageTest" />
 		</classes>
-	</test>  --> 
+	</test>  
 
 
 </suite>
