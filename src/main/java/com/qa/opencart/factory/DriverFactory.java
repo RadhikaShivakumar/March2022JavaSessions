@@ -62,11 +62,18 @@ public class DriverFactory {
 		
 			}
 			
-	}
+		}
 		else if(browserName.equalsIgnoreCase("firefox")) {
-			WebDriverManager.firefoxdriver().setup();
 			
-			tlDriver.set(new FirefoxDriver(optionsManager.getFirefoxOptions()));
+			if(Boolean.parseBoolean(prop.getProperty("remote"))) {
+				//remote execution on docker/Cloud
+				init_remoteDriver("firefox");
+			} else {
+				//local execution:
+				WebDriverManager.firefoxdriver().setup();
+				tlDriver.set(new FirefoxDriver(optionsManager.getFirefoxOptions()));
+			}
+			
 	
 		} 
 		else if(browserName.equalsIgnoreCase("edge")) {
@@ -101,7 +108,7 @@ public class DriverFactory {
 		} 
 		else if(browserName.equalsIgnoreCase("firefox")) {
 			try {
-				tlDriver.set(new RemoteWebDriver(new URL(prop.getProperty("huburl")),optionsManager.getChromeOptions()));
+				tlDriver.set(new RemoteWebDriver(new URL(prop.getProperty("huburl")),optionsManager.getFirefoxOptions()));
 			} catch (MalformedURLException e) {
 				e.printStackTrace();
 			}
