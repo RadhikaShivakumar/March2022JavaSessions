@@ -20,8 +20,7 @@ public class LoginPage {
 	private By forgotPwdLink = By.linkText("Forgotten Password");
 	private By registerLink = By.linkText("Register");
 	private By logoutSuccessMsg = By.cssSelector("div#common-success h1"); 
-	
-	
+		
 	
 	//2. Page constructor...
 	public LoginPage(WebDriver driver) {
