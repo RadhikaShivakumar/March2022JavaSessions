@@ -1,14 +1,16 @@
 pipeline{
+
         agent any
-        
+   
         stages {
-    
+ 
             stage("Build") {
                 steps{
                     echo("Build")
                 }
             }
-
+            
+            
             stage("Run UTs") {
                 steps{
                     echo("run unit test cases")
@@ -36,9 +38,8 @@ pipeline{
                 steps{
                     echo("Run test sanity automation on QA")
                 }
-            } 
-                        
-            stage("deploy stage") {
+            }             
+             stage("deploy stage") {
                 steps{
                     echo("deploy to stage")
                 }
@@ -55,8 +56,5 @@ pipeline{
                 }
             }              
         }
-        
-    
-    
-    
-}
+ 
+} 
