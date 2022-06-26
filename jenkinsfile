@@ -3,7 +3,7 @@ pipeline
     agent any
     
     tools{
-    	maven 'maven'  //maven name in jenkins global tool configuration.
+    	maven 'maven'  
         }
 
     stages 
