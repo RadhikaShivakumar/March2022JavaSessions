@@ -1,9 +1,11 @@
 package com.qa.opencart.pages;
 
+import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
 import com.qa.opencart.constants.Constants;
+import com.qa.opencart.factory.DriverFactory;
 import com.qa.opencart.utils.ElementUtil;
 
 import io.qameta.allure.Step;
@@ -13,6 +15,7 @@ public class LoginPage {
 	
 	private WebDriver driver;
 	private ElementUtil eleUtil;
+	public static final Logger log = Logger.getLogger(LoginPage.class);
 	
 	//1. private By locators: Object Repository
 	private By emailId = By.id("input-email");
@@ -42,6 +45,7 @@ public class LoginPage {
 	@Step("user is able to login with username: {0} and password: {1} open cart app..")
 	public AccountsPage doLogin(String username,String pwd) {
 		System.out.println("Login credentials are: "+ username + " : " + pwd );
+		log.info("Login credentials are: "+ username + " : " + pwd);
 		eleUtil.waitForElementVisible(emailId, Constants.DEFAULT_ELEMENT_TIME_OUT).sendKeys(username);
 		eleUtil.doSendKeys(password, pwd);
 		eleUtil.doClick(loginBtn);

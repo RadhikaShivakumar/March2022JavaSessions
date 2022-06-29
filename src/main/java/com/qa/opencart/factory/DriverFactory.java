@@ -9,6 +9,7 @@ import java.net.URL;
 import java.util.Properties;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.log4j.Logger;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
@@ -28,6 +29,9 @@ public class DriverFactory {
 	
 	public static ThreadLocal<WebDriver> tlDriver = new ThreadLocal<WebDriver>();
 	
+	public static final Logger log = Logger.getLogger(DriverFactory.class);
+	
+	
 	//5 threads in parallel tests -> it will create one local copy of thread and execute tests
 	// dead lock condition
 	
@@ -41,15 +45,17 @@ public class DriverFactory {
 	 */
 	public WebDriver init_driver(Properties prop) {
 		
-		String browserName = prop.getProperty("browser").trim();
+		//String browserName = prop.getProperty("browser").trim();
 		
 		//for jenkins trigger
 		// mvn clean install -Denv="qa" -Dbrowser="chrome"
-		//String browserName = System.getProperty("browser"); //For jenkins selection of browser
+		String browserName = System.getProperty("browser"); //For jenkins selection of browser
 		
 		optionsManager= new OptionsManager(prop);
 		
 		System.out.println("Browser name is : "+ browserName);
+		log.info("Browser name is : "+ browserName);
+		
 		if(browserName.equalsIgnoreCase("chrome")) {
 			
 			if(Boolean.parseBoolean(prop.getProperty("remote"))) {
@@ -57,6 +63,7 @@ public class DriverFactory {
 				init_remoteDriver("chrome");
 			} else {
 				//local execution:
+				log.info("Running tests on Local only....");
 				WebDriverManager.chromedriver().setup();
 				tlDriver.set(new ChromeDriver(optionsManager.getChromeOptions()));
 		
@@ -67,9 +74,11 @@ public class DriverFactory {
 			
 			if(Boolean.parseBoolean(prop.getProperty("remote"))) {
 				//remote execution on docker/Cloud
+				log.info("Running tests on Remote setup....");
 				init_remoteDriver("firefox");
 			} else {
 				//local execution:
+				log.info("Running tests on Local only....");
 				WebDriverManager.firefoxdriver().setup();
 				tlDriver.set(new FirefoxDriver(optionsManager.getFirefoxOptions()));
 			}
@@ -82,7 +91,9 @@ public class DriverFactory {
 			tlDriver.set(new EdgeDriver(optionsManager.getEdgeOptions()));
 		} 
 		else {
+			log.error("Please pass the right browser: "+ browserName);
 			System.out.println("Please pass the right browser: "+ browserName);
+			
 		}
 		
 		getDriver().manage().deleteAllCookies();
@@ -99,6 +110,8 @@ public class DriverFactory {
 	private void init_remoteDriver(String browserName) {
 		System.out.println("Runnin testcases on remote grid server: "+browserName );
 
+		log.info("Runnin testcases on remote grid server: "+browserName);
+		
 		if(browserName.equalsIgnoreCase("chrome")) {
 			try {
 				tlDriver.set(new RemoteWebDriver(new URL(prop.getProperty("huburl")),optionsManager.getChromeOptions()));
@@ -144,6 +157,7 @@ public class DriverFactory {
 		// mvn clean install -Denv="qa"
 		String envName = System.getProperty("env");
 		System.out.println("Running tests on environment: "+ envName);
+		log.info("Running tests on environment: "+ envName);
 		
 		if(envName == null) {
 			System.out.println("No env is given..Hence running it on QA environment");
@@ -158,27 +172,33 @@ public class DriverFactory {
 			  switch(envName.toLowerCase()) {
 			  case "qa":
 				  System.out.println("Running it on QA environment");
+				  log.info("Running it on QA environment");
 				  ip = new  FileInputStream("./src/test/resources/config/qa.config.properties");
 				  break;
 			  case "stage":
 				  System.out.println("Running it on stage environment");
+				  log.info("Running it on Stage environment");
 				  ip = new  FileInputStream("./src/test/resources/config/stage.config.properties");
 				  break;
 			  case "dev":
 				  System.out.println("Running it on dev environment");
+				  log.info("Running it on dev environment");
 				  ip = new  FileInputStream("./src/test/resources/config/dev.config.properties");
 				  break;  
 			  case "uat":
 				  System.out.println("Running it on uat environment");
+				  log.info("Running it on uat environment");
 				  ip = new  FileInputStream("./src/test/resources/config/uat.config.properties");
 				  break;  
 			  case "prod":
 				  System.out.println("Running it on prod environment");
+				  log.info("Running it on prod environment");
 				  ip = new  FileInputStream("./src/test/resources/config/config.properties");
 				  break;   
 				  
 			  default:
 				  System.out.println("Please pass the right environent.."+envName);
+				  log.error("Please pass the right environent.."+envName);
 				  throw new FrameworkException("NoEnvironmentFoundException ---> No env is found exception...."); 	
 				 // break;
 			  		}
