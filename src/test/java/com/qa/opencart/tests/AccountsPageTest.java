@@ -77,7 +77,7 @@ public class AccountsPageTest extends BaseTest{
 	}
 	
 	@Test
-	public void SearchExistTest() {
+	public void searchExistTest() {
 		Assert.assertTrue(accPage.isSearchExist());
 	}
 	
@@ -158,7 +158,7 @@ public class AccountsPageTest extends BaseTest{
 		softAssert.assertAll();
 	}
 	
-	//where to store all these hard coded values.
+	//where to store all these hard coded values, in description constants, how to fetch a small desired portion of the description?
 
 	
 	@DataProvider
@@ -203,6 +203,10 @@ public class AccountsPageTest extends BaseTest{
 		searchResPage = accPage.doSearch(searchKey);
 		productInfoPage = searchResPage.selectProduct(productName);
 		Map<String, String> actProductInfoMap = productInfoPage.getProductInformation();
+		actProductInfoMap.forEach((k,v) -> System.out.println(k + ":" + v));//Brand:Apple
+		
+		
+		
 		softAssert.assertEquals(actProductInfoMap.get("name"),name);
 		softAssert.assertEquals(actProductInfoMap.get("Brand"), brand);
 		softAssert.assertEquals(actProductInfoMap.get("Availability"), availability);

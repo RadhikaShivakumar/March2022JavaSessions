@@ -45,11 +45,12 @@ public class DriverFactory {
 	 */
 	public WebDriver init_driver(Properties prop) {
 		
-		//String browserName = prop.getProperty("browser").trim();
+		String browserName = prop.getProperty("browser").trim();
+		
 		
 		//for jenkins trigger
 		// mvn clean install -Denv="qa" -Dbrowser="chrome"
-		String browserName = System.getProperty("browser"); //For jenkins selection of browser
+		//String browserName = System.getProperty("browser"); //For jenkins selection of browser
 		
 		optionsManager= new OptionsManager(prop);
 		
